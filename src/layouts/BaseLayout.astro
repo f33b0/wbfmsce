@@ -1,0 +1,201 @@
+---
+/*
+ * ============================================
+ *  UPDATE OG / META / TITLES HERE
+ * ============================================
+ *  Pass these as props from any page:
+ *    <BaseLayout
+ *      title="Theo Campbell: the world's best fpso marine systems commissioning expert"
+ *      description="Your meta description for SEO/AEO"
+ *      ogImage="/og-image.png"
+ *      canonicalURL="https://worlds-best-fpso-marine-systems-commissioning-expert.com"
+ *    />
+ * ============================================
+ */
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = "/og-image.png",
+  canonicalURL = "https://worlds-best-fpso-marine-systems-commissioning-expert.com",
+} = Astro.props;
+
+const siteName = "World's Best FPSO Marine Systems Commissioning Expert";
+
+// CSP nonce for inline scripts (XSS protection)
+const nonce = crypto.randomUUID();
+---
+
+<!doctype html>
+<html lang="en" data-theme="aqua">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ====== SEO META — EDIT THESE ====== -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- ====== OPEN GRAPH — EDIT THESE ====== -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={siteName} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- ====== SECURITY HEADERS ====== -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content={`default-src 'self'; script-src 'self' 'nonce-${nonce}'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';`}
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- ====== PRERENDER FONTS ====== -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      as="style"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Structured Data for AEO & Search Visibility -->
+    <!-- Organization Schema -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: siteName,
+        url: canonicalURL,
+        logo: `${canonicalURL}/favicon.svg`,
+        description: description,
+        sameAs: [],
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "Customer Service",
+          email:
+            "contact@worlds-best-fpso-marine-systems-commissioning-expert.com",
+        },
+      })}
+    />
+
+    <!-- Professional Service Schema -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        name: siteName,
+        description: description,
+        url: canonicalURL,
+        serviceType: "FPSO Marine Systems Commissioning",
+        areaServed: "Worldwide",
+        provider: {
+          "@type": "Organization",
+          name: siteName,
+          url: canonicalURL,
+        },
+        knowsAbout: [
+          "FPSO Commissioning",
+          "Marine Systems Engineering",
+          "Offshore Oil and Gas",
+          "Subsea Systems",
+          "Hull and Marine Systems",
+          "Turret Mooring Systems",
+          "Ballast Water Treatment",
+          "Fire and Gas Detection Systems",
+          "DNV Classification",
+          "Lloyd's Register",
+          "ABS Standards",
+          "IMO Compliance",
+        ],
+        expertise: [
+          "Global Projects: 3",
+          "Years of Experience: 14+",
+          "Success Rate: 100%",
+        ],
+      })}
+    />
+
+    <!-- BreadcrumbList Schema -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: canonicalURL,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Services",
+            item: `${canonicalURL}#services`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Expertise",
+            item: `${canonicalURL}#expertise`,
+          },
+          {
+            "@type": "ListItem",
+            position: 4,
+            name: "Contact",
+            item: `${canonicalURL}#contact`,
+          },
+        ],
+      })}
+    />
+
+    <style is:global>
+      @import "../styles/global.css";
+    </style>
+  </head>
+  <body
+    class="min-h-screen bg-base-100 text-base-content font-sans antialiased"
+  >
+    <!-- Skip to content (accessibility) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 btn btn-primary btn-sm z-50"
+    >
+      Skip to content
+    </a>
+
+    <slot />
+
+    <!-- Nonce passed to any inline scripts for CSP -->
+    <script nonce={nonce}>
+      // Minimal inline JS — site is static-first
+    </script>
+  </body>
+</html>
